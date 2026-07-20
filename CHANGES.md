@@ -1,5 +1,50 @@
 # Changes
 
+## 22.1.0
+
+- [`d36e921b`](https://github.com/sinonjs/sinon/commit/d36e921baf382598cfa9323cb672c87ce85e2ad5)
+  fix: let returns override returnsArg (王胜)
+  > Signed-off-by: 王胜 <2318857637@qq.com>
+- [`40c4caa0`](https://github.com/sinonjs/sinon/commit/40c4caa0f47b8fb184319a8873bac616c3eef871)
+  fix: align restoreObject docs test with idempotent behavior (#2745) (Julia Miller)
+  > restoreObject was made idempotent in #2737 — it no longer throws
+  > for objects with no restorable methods. Updates the docs page
+  > and its corresponding test to reflect this.
+- [`a68dac19`](https://github.com/sinonjs/sinon/commit/a68dac198c6d0d9ce797dc9178d0c57ea6455aab)
+  fix: throw a clear error when throwArg index equals the argument count (#2743) (spokodev)
+  > - fix: throw a clear error when throwArg index equals the argument count
+  >
+  > spyCall.throwArg(pos) guarded with pos > this.args.length, so calling it
+  > with pos equal to the number of recorded arguments slipped past the guard
+  > and reached throw this.args[pos], throwing undefined instead of the
+  > intended TypeError. A thrown undefined cannot be inspected as an Error and
+  > is reported by test frameworks as no exception thrown.
+  >
+  > Use >= to match ensureArgs in behavior.js and the sibling callArg helpers,
+  > which already reject an out-of-range index with a clear error.
+- [`9ea504e3`](https://github.com/sinonjs/sinon/commit/9ea504e317e9a27c376a9740bc04ec75f699ed30)
+  feat: make sinon.restoreObject idempotent (#2737) (Ilia Choly)
+  > Passing an object with no live fakes to restoreObject now restores
+  > nothing instead of throwing, giving it symmetry with sinon.restore()
+  > and sandbox.restore(). The strict "found no methods" check is retained
+  > for spy(object) and stub(object), which now use a dedicated
+  > walkObjectStrict export, while restoreObject uses the loose walkObject.
+  > Passing a falsy value still throws.
+  >
+  > Fixes #2736
+- [`4db4feff`](https://github.com/sinonjs/sinon/commit/4db4feffe19d3f117d46b9015b4890187a282cf0)
+  fix: preserve fake undefined argument validation (Vishal Kumar Singh)
+- [`755a40d7`](https://github.com/sinonjs/sinon/commit/755a40d772b02a7ba7e9a1d465a5f26d486ebbdb)
+  fix: isolate callId counter per sandbox for parallel test support (Vishal Kumar Singh)
+  > The global callId counter in proxy-invoke.js caused calledImmediatelyBefore
+  > and calledImmediatelyAfter to fail when tests run in parallel with separate
+  > sandboxes. Each sandbox now maintains its own callId counter, passed through
+  > the spy/stub/fake creation chain via a context object.
+  >
+  > Fixes #2472
+
+_Released by Morgan Roderick on 2026-07-20._
+
 ## 22.0.0
 
 - [`ed911df5`](https://github.com/sinonjs/sinon/commit/ed911df50d2967d52f9ca341f1f15c8b4def8878)
